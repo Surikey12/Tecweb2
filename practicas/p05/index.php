@@ -6,8 +6,8 @@
 </head>
 <body>
     <?php
-        $a = "ManejadorSQL"; 
-        $b = 'MySQL'; 
+        $a = "PHP server"; 
+        $b = &$a; 
         $c = &$a;
         print_r($a);
         echo '<br>';
