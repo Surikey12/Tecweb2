@@ -81,6 +81,45 @@
         echo '<br>';
         $z[0] = "MySQL"; 
         echo $GLOBALS["z"][0];
+        echo '<br><br>';
+
+        #Ejercicio 5
+        $a = "7 personas"; 
+        $b = (integer) $a; 
+        $a = "9E3"; 
+        $c = (double) $a; 
+
+        print_r($a); echo '<br>';
+        print_r($b); echo '<br>';
+        print_r($c); echo '<br>';
+
+        #Ejercicio 6
+        $a = "0";  
+        $b = "TRUE"; 
+        $c = FALSE;  
+        $d = ($a || $b);  
+        $e = ($a && $c);  
+        $f = ($a xor $b);
+        echo "Valores booleanos con var_dump():<br>";
+        var_dump($a);  // Mostrará el tipo y valor de $a
+        echo '<br>';
+        var_dump($b);  // Mostrará el tipo y valor de $b
+        echo '<br>';
+        var_dump($c);  // Mostrará el tipo y valor de $c
+        echo '<br>';
+        var_dump($d);  // Mostrará el tipo y valor de $d
+        echo '<br>';
+        var_dump($e);  // Mostrará el tipo y valor de $e
+        echo '<br>';
+        var_dump($f);  // Mostrará el tipo y valor de $f
+        echo '<br>';
+        // Para mostrar los valores booleanos con echo, transformamos los valores de $c y $e
+
+        // Usamos la función boolval() para asegurarnos de que sean booleanos
+        // Usamos un operador ternario para transformarlos en algo que se pueda mostrar con echo
+        echo "<br>Mostrar valores booleanos de forma legible:<br>";
+        echo "\$c: " . ($c ? 'TRUE' : 'FALSE') . "<br>";  // Mostrará 'FALSE'
+        echo "\$e: " . ($e ? 'TRUE' : 'FALSE') . "<br>";  // Mostrará 'FALSE'
     ?>
 </body>
 </html>
