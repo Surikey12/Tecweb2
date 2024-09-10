@@ -7,9 +7,10 @@
 </head>
 <body>
     
-    <h2>Calcular multiplos de 5 y 7</h2>
+    <h2>Ejemplo de POST</h2>
     <form action="http://localhost/tecweb/practicas/p07/src/funciones.php?numero=10" method="post">
-        Ingresa un número: <input type="text" name="numero"><br>
+        Name: <input type="text" name="name"><br>
+        E-mail: <input type="text" name="email"><br>
         <input type="submit">
     </form>
     <br>
