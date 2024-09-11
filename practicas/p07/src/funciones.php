@@ -46,7 +46,7 @@
     }
 
     function entero($nume){
-
+        echo  "<h3>Respuesta con while</h3>";
         while(true){
             $numero = rand(1,500);
             if($numero%$nume == 0){
@@ -54,5 +54,13 @@
                 break;
             }
         }
+        echo  "<h3>Respuesta con do-while</h3>";
+        do{
+            $numero = rand(1,500);
+            $val = $numero%$nume;
+            if($val == 0){
+                echo "El valor $numero es multiplo de $nume";
+            }
+        } while($val!=0);
     }
 ?>
