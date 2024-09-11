@@ -8,19 +8,20 @@
 <body>
     
     <h2>Ejemplo de POST</h2>
-    <form action="http://localhost/tecweb/practicas/p07/src/funciones.php?numero=10" method="post">
-        Name: <input type="text" name="name"><br>
-        E-mail: <input type="text" name="email"><br>
-        <input type="submit">
+    <form action="index.php" method="get">
+        Número: <input type="text" name="numero"><br>
+        <input type="submit" value ="Confirmar">
     </form>
     <br>
     <?php
-        if(isset($_POST["name"]) && isset($_POST["email"]))
+        include 'C:\xampp\htdocs\tecweb\practicas\p07\src\funciones.php';
+        #Llamado a la función 1
+        if(isset($_GET['numero']))
         {
-            echo $_POST["name"];
-            echo '<br>';
-            echo $_POST["email"];
+            multiplo($_GET['numero']);
         }
+        #Llamado a la función 2
+        generarValores();
     ?>
 </body>
 </html>
