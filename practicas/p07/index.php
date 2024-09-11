@@ -14,7 +14,7 @@
     </form>
     <br>
     <?php
-        include 'C:\xampp\htdocs\tecweb\practicas\p07\src\funciones.php';
+        include_once 'C:\xampp\htdocs\tecweb\practicas\p07\src\funciones.php';
         #Llamado a la función 1
         if(isset($_GET['numero']))
         {
@@ -22,6 +22,22 @@
         }
         #Llamado a la función 2
         generarValores();
+
     ?>
+    <!--Esta es la función 3-->
+    <h2>Primer numero entero</h2>
+    <form action="index.php" method="get">
+        Número: <input type="text" name="num"><br>
+        <input type="submit" value ="Confirmar">
+    </form>
+    <?php
+        include_once 'C:\xampp\htdocs\tecweb\practicas\p07\src\funciones.php';
+        #Llamado a la función 3
+        if(isset($_GET['num']))
+        {
+            entero($_GET['num']);
+        }
+    ?>
+    <br>
 </body>
 </html>

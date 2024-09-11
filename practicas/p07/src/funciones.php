@@ -44,4 +44,15 @@
         echo "<h3>Iteraciones: $iteraciones</h3>";
         echo "<h3>Números generados: $numerosGenerados</h3>";
     }
+
+    function entero($nume){
+
+        while(true){
+            $numero = rand(1,500);
+            if($numero%$nume == 0){
+                echo "El valor $numero es multiplo de $nume";
+                break;
+            }
+        }
+    }
 ?>
