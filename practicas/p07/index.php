@@ -39,5 +39,21 @@
         }
     ?>
     <br>
+    <?php
+        include_once 'C:\xampp\htdocs\tecweb\practicas\p07\src\funciones.php';
+        $arreglo = ascii();
+        echo "<h2>Tabla de valores ASCII</h2>";
+        echo '<table border="1">';
+        echo '<tr><th>Índice</th><th>Valor</th></tr>';
+        // Recorrer el arreglo y generar las filas de la tabla
+        foreach ($arreglo as $key => $value) {
+            echo '<tr>';
+            echo '<td>' . $key . '</td>';
+            echo '<td>' . $value . '</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+    ?>
+    <br>
 </body>
 </html>

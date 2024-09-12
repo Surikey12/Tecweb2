@@ -63,4 +63,12 @@
             }
         } while($val!=0);
     }
+
+    function ascii(){
+        $arreglo = array();
+        for ($i = 97; $i <= 122; $i++) {
+            $arreglo[$i] = chr($i);
+        }
+        return $arreglo;
+    }
 ?>
