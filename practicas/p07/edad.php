@@ -6,7 +6,7 @@
         <title>Ejercicio 5</title>
     </head>
     <body>
-        <h2>Combrodar edad</h2>
+        <h2>Comprobar edad</h2>
         <form action="edad.php" method="post">
             Edad: <input type="text" name="edad"><br>
             Sexo: 
