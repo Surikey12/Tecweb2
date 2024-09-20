@@ -1,150 +1,113 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Manejo de variable en PHP</title>
 </head>
 <body>
     <?php
-
-        #ejercicio 1
+        # Ejercicio 1: Imprimir arreglo de variables
         $variables = [
             '$_myvar => valida',  
             '$_7var => valida',  
             'myvar => invalida',
-            '<br>', 
             '$myvar => valida',  
             '$var7 => valida',  
             '$_element1 => valida', 
             '$house*5 => invalida'
         ];
-
+        echo "<p><strong>Array de Variables:</strong></p>";
+        echo "<pre>";
         print_r($variables);
-        echo '<br>';
+        echo "</pre>";
 
-        #Ejercicio 2
+        # Ejercicio 2: Referencias en PHP
+        echo "<p><strong>PHP Server (Referencias):</strong></p>";
         $a = "PHP server"; 
         $b = &$a; 
         $c = &$a;
-        print_r($a);
-        echo '<br>';
-        print_r($b);
-        echo '<br>';
-        print_r($c);
-        echo '<br>';
-        echo 'Este fragmento de código está utilizando referencias lo que permite que dos variables<br> apunten a la misma ubicación en memoria, de modo que un cambio en una de ellas afecta a la otra.';
+        echo "<p>a: $a</p>";
+        echo "<p>b: $b</p>";
+        echo "<p>c: $c</p>";
+        echo "<p>Este fragmento de código está utilizando referencias, lo que permite que dos variables apunten a la misma ubicación en memoria, de modo que un cambio en una de ellas afecta a la otra.</p>";
 
-        echo '<br><br>';
-        #Ejercicio 3
+        # Ejercicio 3: Manipulación de strings y enteros
+        echo "<p><strong>PHP5:</strong></p>";
         $a = "PHP5"; 
-        print_r($a);
-        echo '<br>';
+        echo "<p>$a</p>";
         $z[] = &$a; 
+        echo "<pre>";
         print_r($z);
-        echo '<br>';
+        echo "</pre>";
         $b = "5a version de PHP"; 
-        print_r($b);
-        echo '<br>';
-        $c = $b*10;
-        print_r($c); 
-        echo '<br>';
+        echo "<p>$b</p>";
+        $c = intval($b) * 10;
+        echo "<p>Valor de c (entero): $c</p>";
         $a .= $b; 
-        print_r($a);
-        echo '<br>';
+        echo "<p>a después de concatenar: $a</p>";
         $b *= $c; 
-        print_r($b);
-        echo '<br>';
+        echo "<p>b multiplicado por c: $b</p>";
         $z[0] = "MySQL"; 
-        print_r($z[0]);
-        echo '<br><br>';
+        echo "<p>z[0]: $z[0]</p>";
 
-        #Ejercicio 4
+        # Ejercicio 4: Uso de $GLOBALS
+        echo "<p><strong>Uso de \$GLOBALS:</strong></p>";
         $a = "PHP5"; 
-        echo $GLOBALS["a"];
-        echo '<br>';
+        echo "<p>Valor de a en \$GLOBALS: {$GLOBALS['a']}</p>";
         $z[] = &$a; 
         foreach ($GLOBALS['z'] as $index => $value) {
-            echo "Valor de \$z[$index]: " . $value . "<br>";
+            echo "<p>Valor de \$z[$index]: $value</p>";
         }
-        echo '<br>';
-        $b = "5a version de PHP"; 
-        echo $GLOBALS["b"];
-        echo '<br>';
-        $c = $b*10;
-        echo $GLOBALS["c"]; 
-        echo '<br>';
-        $a .= $b; 
-        echo $GLOBALS["a"];
-        echo '<br>';
-        $b *= $c; 
-        echo $GLOBALS["b"];
-        echo '<br>';
-        $z[0] = "MySQL"; 
-        echo $GLOBALS["z"][0];
-        echo '<br><br>';
 
-        #Ejercicio 5
+        # Ejercicio 5: Conversiones de tipos
+        echo "<p><strong>Conversiones de tipos:</strong></p>";
         $a = "7 personas"; 
         $b = (integer) $a; 
         $a = "9E3"; 
         $c = (double) $a; 
+        echo "<p>Valor de a: $a</p>";
+        echo "<p>Valor de b (convertido a entero): $b</p>";
+        echo "<p>Valor de c (convertido a double): $c</p>";
 
-        print_r($a); echo '<br>';
-        print_r($b); echo '<br>';
-        print_r($c); echo '<br>';
-
-        #Ejercicio 6
+        # Ejercicio 6: Operadores booleanos
+        echo "<p><strong>Valores booleanos:</strong></p>";
         $a = "0";  
         $b = "TRUE"; 
         $c = FALSE;  
         $d = ($a || $b);  
         $e = ($a && $c);  
         $f = ($a xor $b);
-        echo "Valores booleanos con var_dump():<br>";
-        var_dump($a);  // Mostrará el tipo y valor de $a
-        echo '<br>';
-        var_dump($b);  // Mostrará el tipo y valor de $b
-        echo '<br>';
-        var_dump($c);  // Mostrará el tipo y valor de $c
-        echo '<br>';
-        var_dump($d);  // Mostrará el tipo y valor de $d
-        echo '<br>';
-        var_dump($e);  // Mostrará el tipo y valor de $e
-        echo '<br>';
-        var_dump($f);  // Mostrará el tipo y valor de $f
-        echo '<br>';
-        // Para mostrar los valores booleanos con echo, transformamos los valores de $c y $e
+        echo "<p>Valores booleanos con var_dump():</p>";
+        echo "<pre>";
+        var_dump($a);  
+        var_dump($b);  
+        var_dump($c);  
+        var_dump($d);  
+        var_dump($e);  
+        var_dump($f);
+        echo "</pre>";
+        echo "<p>Mostrar valores booleanos de forma legible:</p>";
+        echo "<p>\$c: " . ($c ? 'TRUE' : 'FALSE') . "</p>";
+        echo "<p>\$e: " . ($e ? 'TRUE' : 'FALSE') . "</p>";
 
-        // Usamos la función boolval() para asegurarnos de que sean booleanos
-        // Usamos un operador ternario para transformarlos en algo que se pueda mostrar con echo
-        echo "<br>Mostrar valores booleanos de forma legible:<br>";
-        echo "\$c: " . ($c ? 'TRUE' : 'FALSE') . "<br>";  // Mostrará 'FALSE'
-        echo "\$e: " . ($e ? 'TRUE' : 'FALSE') . "<br>";  // Mostrará 'FALSE'
-
-        # EJERCICIO 7
-
-        echo '<br>';
+        # Ejercicio 7: Información del servidor
+        echo "<p><strong>Información del servidor:</strong></p>";
         if (isset($_SERVER['SERVER_SOFTWARE'])) {
-            echo 'Versión de Apache: ' . $_SERVER['SERVER_SOFTWARE'] . '<br>';
+            echo "<p>Versión de Apache: {$_SERVER['SERVER_SOFTWARE']}</p>";
         } else {
-            echo 'No se pudo determinar la versión de Apache.<br>';
+            echo "<p>No se pudo determinar la versión de Apache.</p>";
         }
-
-        echo 'Versión de PHP: ' . phpversion() . '<br>';
-
-
-        if (isset($_SERVER['SERVER_SOFTWARE'])) {
-            echo 'Nombre del sistema operativo del servidor: ' . php_uname() . '<br>';
-        } else {
-            echo 'No se pudo determinar el nombre del sistema operativo del servidor.<br>';
-        }
-
-
+        echo "<p>Versión de PHP: " . phpversion() . "</p>";
+        echo "<p>Nombre del sistema operativo del servidor: " . php_uname() . "</p>";
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            echo 'Idioma del navegador (cliente): ' . $_SERVER['HTTP_ACCEPT_LANGUAGE'] . '<br>';
+            echo "<p>Idioma del navegador (cliente): {$_SERVER['HTTP_ACCEPT_LANGUAGE']}</p>";
         } else {
-            echo 'No se pudo determinar el idioma del navegador.<br>';
+            echo "<p>No se pudo determinar el idioma del navegador.</p>";
         }
     ?>
+    <p>
+        <a href="https://validator.w3.org/markup/check?uri=referer"><img src="https://www.w3.org/Icons/valid-xhtml11" alt="Valid XHTML 1.1" height="31" width="88" /></a>
+    </p>
 </body>
 </html>
