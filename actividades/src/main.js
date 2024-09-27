@@ -160,3 +160,129 @@ function SentenciaWhile(){
     x=x+1;
     }
 }
+//Función 11
+function Acumulador(){
+    var x=1;
+    var suma=0;
+    var valor;
+    while (x<=5){
+    valor = prompt('Ingresa el valor:', '');
+    valor = parseInt(valor);
+    suma = suma+valor;
+    x = x+1;
+    }
+    document.write("La suma de los valores es "+suma+"<br>");
+}
+//Función 12
+function SentenciaDo_While(){
+    var valor;
+    do{
+        valor = prompt('Ingresa un valor entre 0 y 999:', '');
+        valor = parseInt(valor);
+        document.write('El valor '+valor+' tiene ');
+        if (valor<10)
+            document.write('Tiene 1 dígitos');
+        else
+            if (valor<100) {
+                document.write('Tiene 2 dígitos');
+            }
+            else {
+                document.write('Tiene 3 dígitos');
+            }
+                document.write('<br>');
+    }while(valor!=0);
+}
+//Función 13
+function SentenciaFor(){
+    var f;
+    for(f=1; f<=10; f++)
+    {
+        document.write(f+" ");
+    }
+}
+//Función 14
+function Implementacion(){
+    document.write("Cuidado<br>");
+    document.write("Ingresa tu documento correctamente<br>");
+    document.write("Cuidado<br>");
+    document.write("Ingresa tu documento correctamente<br>");
+    document.write("Cuidado<br>");
+    document.write("Ingresa tu documento correctamente<br>");
+}
+//Función 15
+function MensajeFunciones() {
+    function mostrarMensaje() {
+        document.write("Cuidado<br>");
+        document.write("Ingresa tu documento correctamente<br>");
+        }
+        mostrarMensaje();
+        mostrarMensaje();
+        mostrarMensaje();
+}
+//Función 16
+function Rango(){
+    function mostrarRango(x1,x2) {
+        var inicio;
+        for(inicio=x1; inicio<=x2; inicio++) {
+            document.write(inicio+' ');
+        
+        }
+        }
+        var valor1,valor2;
+        valor1 = prompt('Ingresa el valor inferior:', '');
+        valor1 = parseInt(valor1);
+        valor2 = prompt('Ingresa el valor superior:', '');
+        valor2 = parseInt(valor2);
+        mostrarRango(valor1,valor2);
+}
+
+//Función 17
+function RetornoV(){
+    function convertirCastellano(x) {
+
+        if(x==1)
+        return "uno";
+        else
+        if(x==2)
+        
+        return "dos";
+        else
+        if(x==3)
+        return "tres";
+        else
+        if(x==4)
+        
+        return "cuatro";
+        
+        else
+        
+        if(x==5)
+        return "cinco";
+        else
+        return "valor incorrecto";
+        
+    }
+    var valor = prompt("Ingresa un valor entre 1 y 5", "");
+    valor = parseInt(valor);
+    var r = convertirCastellano(valor);
+    document.write(r);
+}
+//Función 18
+function RetornoSwitch(){
+    function convertirCastellano(x) {
+        switch (x) {
+            case 1: return "uno";
+            case 2: return "dos";
+            case 3: return "tres";
+            case 4: return "cuatro";
+            case 5: return "cinco";
+            default: return "valor incorrecto";
+        }
+    }
+    var valor = prompt("Ingresa un valor entre 1 y 5", "");
+    valor = parseInt(valor);
+    var r = convertirCastellano(valor);
+    document.write(r);
+    
+    
+}
