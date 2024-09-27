@@ -12,37 +12,33 @@ function getDatos(){
 
 //Función 1
 function HolaMundo(){
-    document.write('Hola Mundo');
+    var div1 = document.getElementById('Hola_M');
+    div1.innerHTML = 'Hola Mundo';
 }
 //Función 2
 function Nombre(){
     var nombre = 'Juan';
-    var edad = 10
-    ;
-    var altura = 1.92
-    ;
-    var casado = false
-    ;
+    var edad = 10;
+    var altura = 1.92;
+    var casado = false;
 
-    document.write( nombre );
-    document.write( '<br>' );
-    document.write( edad );
-    document.write( '<br>' );
-    document.write( altura );
-    document.write( '<br>' );
-    document.write( casado );
+    var div1 = document.getElementById('Nombre');
+    div1.innerHTML =  nombre + '<br>';
+    var div2 = document.getElementById('Edad');
+    div2.innerHTML= edad +'<br>';
+    var div3 = document.getElementById('Altura');
+    div3.innerHTML= altura + '<br>';
+    var div4 = document.getElementById('Casado');
+    div4.innerHTML =  casado + '<br>';
 }
 //Función 3
 function Nombre2(){
     var nombre;
     var edad;
+    var div1 = document.getElementById('Nombre2');
     nombre = prompt('Ingresa tu nombre:', '');
     edad = prompt('Ingresa tu edad:', '');
-    document.write('Hola ');
-    document.write(nombre);
-    document.write(' así que tienes ');
-    document.write(edad);
-    document.write(' años');
+    div1.innerHTML ='Hola ' + nombre + ' así que tienes ' + edad + ' años';
 }
 //Función 4
 function Numeros(){
@@ -52,34 +48,35 @@ function Numeros(){
     valor2 = prompt('Introducir segundo número', '');
     var suma = parseInt(valor1)+parseInt(valor2);
     var producto = parseInt(valor1)*parseInt(valor2);
-    document.write('La suma es ');
-    document.write(suma);
-    document.write('<br>');
-    document.write('El producto es ');
-    document.write(producto);
+    var div1 = document.getElementById('Suma');
+    var div2 = document.getElementById('Producto');
+    div1.innerHTML = 'La suma es ' + suma + '<br>';
+    div2.innerHTML = 'El producto es ' + producto;
 }
 //Función 5
 function SentenciaIf(){
     var nombre;
     var nota;
+    var div1 = document.getElementById('Calificacion');
     nombre = prompt('Ingresa tu nombre:', '');
     nota = prompt('Ingresa tu nota:', '');
     if (nota>=4) {
-    document.write(nombre+' esta aprobado con un '+nota);
+        div1.innerHTML = nombre+' esta aprobado con un '+nota;
     }
 }
 //Función 6
 function SentenciaIf_else(){
     var num1,num2;
+    var div1 = document.getElementById('mayor');
     num1 = prompt('Ingresa el primer número:', '');
     num2 = prompt('Ingresa el segundo número:', '');
     num1 = parseInt(num1);
     num2 = parseInt(num2);
     if (num1>num2) {
-    document.write('el mayor es '+num1);
+        div1.innerHTML = 'el mayor es '+num1 ;
     }
     else {
-    document.write('el mayor es '+num2);
+        div1.innerHTML = 'el mayor es '+num2;
     }
 }
 //Función 7
@@ -96,42 +93,44 @@ function AnidadosIf_else(){
     nota3 = parseInt(nota3);
 
     var pro;
+    var div1 = document.getElementById('nota');
     pro = (nota1+nota2+nota3)/3;
     if (pro>=7) {
-        document.write('aprobado');
+        div1.innerHTML = 'aprobado';
         }
         else {
         if (pro>=4) {
-        document.write('regular');
+        div1.innerHTML = 'regular';
         }
         else {
-        document.write('reprobado');
+        div1.innerHTML = 'reprobado';
         }
     }
 }
 //Función 8
 function SentenciaSwitch(){
     var valor;
+    var div1 = document.getElementById('num');
     valor = prompt('Ingresar un valor comprendido entre 1 y 5:', '' );
     //Convertimos a entero
     valor = parseInt(valor);
     switch (valor) {
-        case 1: document.write('uno');
+        case 1: div1.innerHTML = 'uno';
         break;
 
-        case 2: document.write('dos');
+        case 2: div1.innerHTML = 'dos';
         break;
 
-        case 3: document.write('tres');
+        case 3: div1.innerHTML = 'tres';
         break;
 
-        case 4: document.write('cuatro');
+        case 4: div1.innerHTML = 'cuatro';
         break;
 
-        case 5: document.write('cinco');
+        case 5: div1.innerHTML = 'cinco';
         break;
 
-        default:document.write('debe ingresar un valor comprendido entre 1 y 5.');
+        default:div1.innerHTML = 'debe ingresar un valor comprendido entre 1 y 5.';
     }
 }
 //Función 9
@@ -153,11 +152,11 @@ function SwitchColores(){
 //Función 10
 function SentenciaWhile(){
     var x;
+    var div1 = document.getElementById('valor');
     x=1;
     while (x<=100) {
-    document.write(x);
-    document.write('<br>');
-    x=x+1;
+        div1.innerHTML += x + '<br>';
+        x=x+1;
     }
 }
 //Función 11
@@ -165,55 +164,58 @@ function Acumulador(){
     var x=1;
     var suma=0;
     var valor;
+    var div1 = document.getElementById('suma_valor');
     while (x<=5){
     valor = prompt('Ingresa el valor:', '');
     valor = parseInt(valor);
     suma = suma+valor;
     x = x+1;
     }
-    document.write("La suma de los valores es "+suma+"<br>");
+    div1.innerHTML = "La suma de los valores es "+suma+"<br>";
 }
 //Función 12
 function SentenciaDo_While(){
     var valor;
+    var div1 = document.getElementById('digitos');
     do{
         valor = prompt('Ingresa un valor entre 0 y 999:', '');
         valor = parseInt(valor);
-        document.write('El valor '+valor+' tiene ');
         if (valor<10)
-            document.write('Tiene 1 dígitos');
+            div1.innerHTML += 'El valor '+valor+' tiene 1 dígito<br>';
         else
             if (valor<100) {
-                document.write('Tiene 2 dígitos');
+                div1.innerHTML += 'El valor '+valor+' tiene 2 dígito<br>';
             }
             else {
-                document.write('Tiene 3 dígitos');
+                div1.innerHTML += 'El valor '+valor+' tiene 3 dígito<br>';
             }
-                document.write('<br>');
     }while(valor!=0);
 }
 //Función 13
 function SentenciaFor(){
     var f;
+    var div1 = document.getElementById('secuencia');
     for(f=1; f<=10; f++)
     {
-        document.write(f+" ");
+        div1.innerHTML += f+" ";
     }
 }
 //Función 14
 function Implementacion(){
-    document.write("Cuidado<br>");
-    document.write("Ingresa tu documento correctamente<br>");
-    document.write("Cuidado<br>");
-    document.write("Ingresa tu documento correctamente<br>");
-    document.write("Cuidado<br>");
-    document.write("Ingresa tu documento correctamente<br>");
+    var div1 = document.getElementById('SinF');
+    div1.innerHTML += "Cuidado<br>";
+    div1.innerHTML += "Ingresa tu documento correctamente<br>";
+    div1.innerHTML += "Cuidado<br>";
+    div1.innerHTML += "Ingresa tu documento correctamente<br>";
+    div1.innerHTML += "Cuidado<br>";
+    div1.innerHTML += "Ingresa tu documento correctamente<br>";
 }
 //Función 15
 function MensajeFunciones() {
     function mostrarMensaje() {
-        document.write("Cuidado<br>");
-        document.write("Ingresa tu documento correctamente<br>");
+        var div1 = document.getElementById('ConF');
+        div1.innerHTML += "Cuidado<br>";
+        div1.innerHTML += "Ingresa tu documento correctamente<br>";
         }
         mostrarMensaje();
         mostrarMensaje();
@@ -223,11 +225,12 @@ function MensajeFunciones() {
 function Rango(){
     function mostrarRango(x1,x2) {
         var inicio;
+        var div1 = document.getElementById('Rango');
         for(inicio=x1; inicio<=x2; inicio++) {
-            document.write(inicio+' ');
+            div1.innerHTML += inicio+' ';
         
         }
-        }
+    }
         var valor1,valor2;
         valor1 = prompt('Ingresa el valor inferior:', '');
         valor1 = parseInt(valor1);
@@ -265,7 +268,8 @@ function RetornoV(){
     var valor = prompt("Ingresa un valor entre 1 y 5", "");
     valor = parseInt(valor);
     var r = convertirCastellano(valor);
-    document.write(r);
+    var div1 = document.getElementById('NumL');
+    div1.innerHTML = r;
 }
 //Función 18
 function RetornoSwitch(){
@@ -282,7 +286,8 @@ function RetornoSwitch(){
     var valor = prompt("Ingresa un valor entre 1 y 5", "");
     valor = parseInt(valor);
     var r = convertirCastellano(valor);
-    document.write(r);
+    var div1 = document.getElementById('NumTxt');
+    div1.innerHTML = r;
     
     
 }
