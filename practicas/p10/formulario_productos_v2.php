@@ -26,17 +26,20 @@
     <h1 style="text-align: center">Registro de LIBROS</h1>
 
     <h2><p>A continuación ingrese los datos del del libro:</p></h2>
-    <form action="http://localhost/tecweb/practicas/p10/set_producto_v2.php" method ="post">
+    <form action="http://localhost/tecweb/practicas/p10/update_producto.php" method ="post">
         <fieldset>
             <legend><p>Información del Producto</p></legend>
             <?php
               // Asigna el valor por defecto (puede venir de $_POST o $_GET)
               $selected_marca = !empty($_POST['marca']) ? $_POST['marca'] : (isset($_GET['marca']) ? $_GET['marca'] : '');
+              $id = !empty($_POST['marca']) ? $_POST['id'] : (isset($_GET['id']) ? $_GET['id'] : '')
             ?>
             <ul>
+            <!--Input para obtener el ID necesario-->
+            <input type="hidden" name="id" value= <?= !empty($_POST['id'])?$_POST['id']:$_GET['id'] ?>>
             <li>Nombre del libro: <input type="text" name="nombre" maxlength="100" required value="<?= !empty($_POST['nombre'])?$_POST['nombre']:$_GET['nombre'] ?>"> </li>
             <li>Marca del libro(Editorial): 
-              <select name="marca" required value="<?= !empty($_POST['marca'])?$_POST['marca']:$_GET['marca'] ?>">
+              <select name="marca" required>
                 <option value="acantilado" <?php if ($selected_marca == 'acantilado') echo 'selected'; ?>>Acantilado</option>
                 <option value="akal" <?php if ($selected_marca == 'akal') echo 'selected'; ?>>Akal</option>
                 <option value="aguilar" <?php if ($selected_marca == 'aguilar') echo 'selected'; ?>>Aguilar</option>
@@ -74,7 +77,7 @@
                 <option value="novela" <?php if ($selected_marca == 'novela') echo 'selected'; ?>>N de novela</option>
                 <option value="olañeta" <?php if ($selected_marca == 'olañeta') echo 'selected'; ?>>Olañeta</option>
                 <option value="paidos" <?php if ($selected_marca == 'paidos') echo 'selected'; ?>>Paidos</option>
-                <option value="penguin" <?php if ($selected_marca == 'penguin') echo 'selected'; ?>>Penguin Books</option>
+                <option value="penguin books" <?php if ($selected_marca == 'penguin books') echo 'selected'; ?>>Penguin Books</option>
                 <option value="planeta" <?php if ($selected_marca == 'planeta') echo 'selected'; ?>>Planeta</option>
                 <option value="lector" <?php if ($selected_marca == 'lector') echo 'selected'; ?>>Planeta Lector</option>
                 <option value="peninsula" <?php if ($selected_marca == 'peninsula') echo 'selected'; ?>>Peninsula</option>

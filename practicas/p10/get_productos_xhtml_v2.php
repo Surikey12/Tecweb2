@@ -21,7 +21,7 @@
             En este caso se obtienen todos los datos de la fila con el id encontrado
             y que pertenecen a la clase "row-data".
             */
-
+            var id = rowId.split('_')[1];
             var name = data[0].innerHTML;
             var marca = data[1].innerHTML;
             var modelo = data[2].innerHTML;
@@ -32,7 +32,7 @@
 
             alert("Libro: " + name + "\nEditorial: " + marca + "\nModelo: " + modelo + "\nPrecio: " + precio +"\nDetalles: "+detalles+"\nImagen: "+imagen);
 
-            send2form(name, marca, modelo, precio, unidades, detalles, imagen);
+            send2form(id, name, marca, modelo, precio, unidades, detalles, imagen);
         }
     </script>
 </head>
@@ -89,11 +89,11 @@
                         <td class="row-data">' . $row['precio'] . '</td>
                         <td class="row-data">' . $row['unidades'] . '</td>
                         <td class="row-data">' . utf8_encode($row['detalles']) . '</td>
-                        <td class="row-data"><img src="' . $row['imagen'] . '" alt="Imagen del producto" width="100"></td>
+                        <td class="row-no-data"><img src="' . $row['imagen'] . '" alt="Imagen del producto" width="100"></td>
+                        <td class="row-data" style="display:none;><' . $row['imagen'] . '></td>
                         <td><input type="button" value="submit" onclick="show()" /></td>
                     </tr>';
                 }
-
                 echo '
                     </tbody>
                 </table>';
@@ -110,8 +110,9 @@
     }
     ?>
     <script>
-        function send2form(name, marca, modelo, precio, unidades, detalles, imagen) {     //form) { 
+        function send2form(id, name, marca, modelo, precio, unidades, detalles, imagen) {     //form) { 
             var urlForm = "http://localhost/tecweb/practicas/p10/formulario_productos_v2.php";
+            var propId = "id="+ id;
             var propName = "nombre="+name;
             var propMarca = "marca="+marca;
             var propModelo = "modelo="+modelo;
@@ -119,7 +120,7 @@
             var propUnidades = "unidades="+unidades;
             var propDeta = "detalles="+detalles;
             var propImg = "imagen="+imagen;
-            window.open(urlForm+"?"+propName+"&"+propMarca+"&"+propModelo+"&"+propPrecio+"&"+propUnidades+"&"+propDeta+"&"+propImg);
+            window.open(urlForm+"?"+propId+"&"+propName+"&"+propMarca+"&"+propModelo+"&"+propPrecio+"&"+propUnidades+"&"+propDeta+"&"+propImg);
         }
     </script>
 </body>
