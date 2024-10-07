@@ -89,8 +89,7 @@
                         <td class="row-data">' . $row['precio'] . '</td>
                         <td class="row-data">' . $row['unidades'] . '</td>
                         <td class="row-data">' . utf8_encode($row['detalles']) . '</td>
-                        <td class="row-no-data"><img src="' . $row['imagen'] . '" alt="Imagen del producto" width="100"></td>
-                        <td class="row-data" style="display:none;><' . $row['imagen'] . '></td>
+                        <td class="row-data"><img src="' . $row['imagen'] . '" alt="Imagen del producto" width="100"></td>
                         <td><input type="button" value="submit" onclick="show()" /></td>
                     </tr>';
                 }
