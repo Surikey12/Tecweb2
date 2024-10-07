@@ -8,17 +8,72 @@
       list-style-type: none;
         }
     </style>
-    <script>
-      function VerificarImagen(){
-        var ruta = document.getElementById('img').value;
-        var imgTag = document.getElementById('imagen').value;
-        if(ruta === ''){
-          imgTag.src = 'IMG/imagenDefecto.png';
-        }else{
-          imgTag.src = ruta;
-        }
+  <script>
+    function ValidarFormulario() {
+      let nombre = document.getElementById('nombre').value.trim();
+      let marca = document.getElementById('marca').value;
+      let modelo = document.getElementById('modelo').value.trim();
+      let precio = parseFloat(document.getElementById('precio').value);
+      let unidad = parseInt(document.getElementById('unidad').value);
+      let detalles = document.getElementById('desc').value.trim();
+      let imagen = document.getElementById('img').value.trim();
+      let defaultImage = "IMG/imagenDefecto.png"; // Ruta por defecto
+  
+      // Validar nombre
+      if (nombre === "" || nombre.length > 100) {
+        alert("El nombre es requerido y debe tener 100 caracteres o menos.");
+        return false;
       }
-    </script>
+  
+      // Validar marca
+      if (marca === "") {
+        alert("Debe seleccionar una marca.");
+        return false;
+      }
+  
+      // Validar modelo
+      let modelPattern = /^[a-zA-Z0-9]+$/;
+      if (modelo === "" || !modelPattern.test(modelo) || modelo.length > 25) {
+        alert("El modelo es requerido, debe ser alfanumérico y tener 25 caracteres o menos.");
+        return false;
+      }
+  
+      // Validar precio
+      if (isNaN(precio) || precio <= 99.99) {
+        alert("El precio es requerido y debe ser mayor a 99.99.");
+        return false;
+      }
+  
+      // Validar unidades
+      if (isNaN(unidad) || unidad < 0) {
+        alert("Las unidades son requeridas y deben ser mayores o iguales a 0.");
+        return false;
+      }
+  
+      // Validar detalles
+      if (detalles.length > 250) {
+        alert("Los detalles deben tener 250 caracteres o menos.");
+        return false;
+      }
+  
+      // Validar imagen
+      if (imagen === "") {
+        imagen = defaultImage;
+      }
+  
+      // Formulario válido
+      return true;
+    }
+  
+   // Ejecutar la validación en el submit del formulario
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('formLib').addEventListener('submit', function(event) {
+      if (!ValidarFormulario()) {
+        event.preventDefault(); // Prevenir el envío del formulario si la validación falla
+      }
+    });
+  });
+  </script>
   </head>
 
   <body>
@@ -26,14 +81,14 @@
     <h1 style="text-align: center">Registro de LIBROS</h1>
 
     <h2><p>A continuación ingrese los datos del del libro:</p></h2>
-    <form action="http://localhost/tecweb/practicas/p10/set_producto_v2.php" method ="post">
+    <form action="http://localhost/tecweb/practicas/p10/set_producto_v2.php" method ="post" id="formLib">
         <fieldset>
             <legend><p>Información del Producto</p></legend>
 
             <ul>
-            <li>Nombre del libro: <input type="text" name="nombre" maxlength="100" required> </li>
+            <li>Nombre del libro: <input type="text" name="nombre" id="nombre"> </li>
             <li>Marca del libro(Editorial): 
-              <select name="editorial" required>
+              <select name="marca" id="marca">
                 <option value="acantilado">Acantilado</option>
                 <option value="akal">Akal</option>
                 <option value="aguilar">Aguilar</option>
@@ -91,20 +146,20 @@
                 <option value="zafiro">Zafiro</option>
               </select>
             </li>
-            <li>Modelo: <input type="text" name="modelo" maxlength="25" required> </li>
-            <li>Precio: <input type="number" step="any" name="precio" min="100" required> </li>
-            <li>Unidades: <input type="number" name="unidad" min="0" required> </li>
+            <li>Modelo: <input type="text" name="modelo" id="modelo"> </li>
+            <li>Precio: <input type="number" step="any" name="precio" id="precio"> </li>
+            <li>Unidades: <input type="number" name="unidad" min="0" id="unidad"> </li>
             <li>Descripción <br> 
-            <textarea name="desc" rows="4" cols="60" maxlength="250" placeholder="Ejemplo: Color, tamaño, diseño, etc."></textarea>
+            <textarea name="desc" id="desc" rows="4" cols="60" placeholder="Ejemplo: Color, tamaño, diseño, etc."></textarea>
             </li>
             <li>Imagen: <br>
-                <textarea name="img" id="img" rows="4" cols="60" maxlength="100" placeholder="Ingrese url de la Imagen: http://example.com/image.jpg"></textarea>
+                <textarea name="img" id="img" rows="4" cols="60" placeholder="Ingrese url de la Imagen: http://example.com/image.jpg"></textarea>
             </li>
             <img id="imagen" src="IMG/imagenDefecto.png" style="display: none;">
             </ul>
         </fieldset>
         <div style="text-align: center">
-            <input type="submit" value="Agregar Producto" onclick="VerificarImagen()"> 
+            <input type="submit" value="Agregar Producto"> 
             <input type="reset" value="Limpiar">
         </div>
     </form>
