@@ -28,7 +28,7 @@
             var precio = data[3].innerHTML;
             var unidades = data[4].innerHTML;
             var detalles = data[5].innerHTML;
-            var imagen = data[6].innerHTML;
+            var imagen = data[6].getAttribute('data-src');
 
             alert("Libro: " + name + "\nEditorial: " + marca + "\nModelo: " + modelo + "\nPrecio: " + precio +"\nDetalles: "+detalles+"\nImagen: "+imagen);
 
@@ -89,8 +89,10 @@
                         <td class="row-data">' . $row['precio'] . '</td>
                         <td class="row-data">' . $row['unidades'] . '</td>
                         <td class="row-data">' . utf8_encode($row['detalles']) . '</td>
-                        <td class="row-data"><img src="' . $row['imagen'] . '" alt="Imagen del producto" width="100"></td>
-                        <td><input type="button" value="submit" onclick="show()" /></td>
+                        <td class="row-data" data-src="' . $row['imagen'] . '">
+                            <img src="' . $row['imagen'] . '" alt="Imagen del producto" width="100">
+                        </td>
+                        <td><input type="button" value="Entrar" onclick="show()" /></td>
                     </tr>';
                 }
 
