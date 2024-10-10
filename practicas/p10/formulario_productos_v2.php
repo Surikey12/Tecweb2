@@ -8,17 +8,7 @@
       list-style-type: none;
         }
     </style>
-    <!--<script>
-      function VerificarImagen(){
-        var ruta = document.getElementById('img').value;
-        var imgTag = document.getElementById('imagen').value;
-        if(ruta === ''){
-          imgTag.src = 'IMG/imagenDefecto.png';
-        }else{
-          imgTag.src = ruta;
-        }
-      }
-    </script>-->
+
   </head>
 
   <script>
@@ -71,7 +61,8 @@
 
     // Validar imagen
     if (imagen === "") {
-      imagen = defaultImage;
+      //imagen = defaultImage;
+      document.getElementById('img').value = defaultImage;
     }
 
     // Formulario válido
