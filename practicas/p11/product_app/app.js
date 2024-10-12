@@ -17,8 +17,8 @@ function buscarID(e) {
      */
     e.preventDefault();
 
-    // SE OBTIENE EL ID A BUSCAR
-    var id = document.getElementById('search').value;
+    // SE OBTIENE EL NOMBRE A BUSCAR
+    var nombre = document.getElementById('search').value;
 
     // SE CREA EL OBJETO DE CONEXIÓN ASÍNCRONA AL SERVIDOR
     var client = getXMLHttpRequest();
@@ -57,7 +57,7 @@ function buscarID(e) {
             }
         }
     };
-    client.send("id="+id);
+    client.send("nombre="+nombre);
 }
 
 // FUNCIÓN CALLBACK DE BOTÓN "Agregar Producto"
