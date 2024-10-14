@@ -18,7 +18,7 @@ function buscarID(e) {
     e.preventDefault();
 
     // SE OBTIENE EL NOMBRE A BUSCAR
-    var nombre = document.getElementById('search').value;
+    var id = document.getElementById('search').value;
 
     // SE CREA EL OBJETO DE CONEXIÓN ASÍNCRONA AL SERVIDOR
     var client = getXMLHttpRequest();
@@ -57,7 +57,7 @@ function buscarID(e) {
             }
         }
     };
-    client.send("nombre="+nombre);
+    client.send("id="+id);
 }
 
 // FUNCIÓN CALLBACK DE BOTÓN "Buscar"
@@ -65,7 +65,7 @@ function buscarProducto(e) {
     e.preventDefault();
 
     // SE OBTIENE EL NOMBRE A BUSCAR
-    var nombre = document.getElementById('search').value;
+    var nombre = document.getElementById('searchbook').value;
 
     // SE CREA EL OBJETO DE CONEXIÓN ASÍNCRONA AL SERVIDOR
     var client = getXMLHttpRequest();
