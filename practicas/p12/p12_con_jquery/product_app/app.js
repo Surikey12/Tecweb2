@@ -159,7 +159,7 @@ $(document).ready(function() {
                 let template = '';
                 products.forEach(product =>{
                     template += `
-                        <tr>
+                        <tr productId = "${product.id}">
                             <td>${product.id}</td>
                             <td>${product.nombre}</td>
                             <td>${product.detalles}</td>
@@ -176,5 +176,25 @@ $(document).ready(function() {
         });
     }
 
+    $(document).on('click', '.product-delete', function(){
+        if(confirm('¿Estas seguro de querer eliminar?')){
+            let element= $(this)[0].parentElement.parentElement;
+            let id= $(element).attr('productId');
+            $.post('backend/product-delete.php', {id}, function(response){
+                fetchProducts();
+                let message = JSON.parse(response);
+                    let template ='';
+                    template = `<p>
+                        ${message.message}
+                    </p>`
+                    // Mostrar el contenedor si hay productos
+                    if (message.message.length > 0) {
+                        $('#product-result').removeClass('d-none');
+                    }
+        
+                    $('#container').html(template);
+            })
+        }
+    });
 });
 
