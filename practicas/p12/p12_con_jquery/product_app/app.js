@@ -20,10 +20,10 @@ function init() {
     //listarProductos();
 }
 
-//Función para buscar productos
 $(document).ready(function() {
     console.log('jQuery is working');
-
+    fetchProducts();
+    //Función para buscar productos
     $('#search').keyup(function(e){
         let search = $('#search').val();
         $.ajax({
@@ -130,7 +130,7 @@ $(document).ready(function() {
             ContentType: 'application/json',
             data: JSON.stringify(finalProductData),  // Enviar el JSON modificado
             success: function(response) {
-                console.log(response);  // Ver la respuesta del servidor
+                fetchProducts();
                 let message = JSON.parse(response);
                 let template ='';
                 template = `<p>
@@ -148,5 +148,33 @@ $(document).ready(function() {
             }
         });
     });
+
+    //Función de listar productos
+    function fetchProducts() {
+        $.ajax({
+            url: 'backend/product-list.php',
+            type: 'GET',
+            success: function(response){
+                let products = JSON.parse(response);
+                let template = '';
+                products.forEach(product =>{
+                    template += `
+                        <tr>
+                            <td>${product.id}</td>
+                            <td>${product.nombre}</td>
+                            <td>${product.detalles}</td>
+                            <td>
+                                <button class="product-delete btn btn-danger">
+                                    Eliminar
+                                </button>  
+                            </td>
+                        </tr>
+                    `
+                });
+                $('#products').html(template);
+            }
+        });
+    }
+
 });
 
