@@ -21,6 +21,7 @@ function init() {
 }
 
 $(document).ready(function() {
+    let edit = false;
     console.log('jQuery is working');
     fetchProducts();
     //Función para buscar productos
@@ -56,7 +57,7 @@ $(document).ready(function() {
         e.preventDefault();
         // Inicializar el array de errores
         let errores = [];
-    
+        let id = $('#productId').val();
         let nombre = $('#name').val();
         let productData = JSON.parse($('#description').val());  // Parsear el JSON del textarea para modificarlo
     
@@ -74,12 +75,12 @@ $(document).ready(function() {
     
         // Validar precio
         if (isNaN(precio) || precio <= 99.99) {
-            errores.push('El precio es requerido y debe ser mayor a 99.99');
+            errores.push('El precio es requerido, debe ser númerico y debe ser mayor a 99.99');
         }
     
         // Validar unidades
         if (isNaN(unidades) || unidades < 0) {
-            errores.push('Las unidades son requeridas y deben ser un número entero positivo.');
+            errores.push('Las unidades son requeridas, deben ser númericas y deben ser un número entero positivo.');
         }
     
         // Validar modelo
@@ -112,6 +113,7 @@ $(document).ready(function() {
     
         // Si no hay errores, crear el objeto productData final
         const finalProductData = {
+            id : id,
             nombre: nombre,
             marca: marca,
             modelo: modelo,
@@ -121,11 +123,11 @@ $(document).ready(function() {
             imagen: imagen
         };
     
-    
+        let url_unic = edit === false ? 'backend/product-add.php' : 'backend/product-edit.php';
     
         // Enviar los datos vía AJAX
         $.ajax({
-            url: 'backend/product-add.php',  // Cambia a la ruta correcta del backend
+            url: url_unic,  // Cambia a la ruta correcta del backend
             type: 'POST',
             ContentType: 'application/json',
             data: JSON.stringify(finalProductData),  // Enviar el JSON modificado
@@ -161,7 +163,9 @@ $(document).ready(function() {
                     template += `
                         <tr productId = "${product.id}">
                             <td>${product.id}</td>
-                            <td>${product.nombre}</td>
+                            <td>
+                                <a href="#" class="product-item">${product.nombre}</a>
+                            </td>
                             <td>${product.detalles}</td>
                             <td>
                                 <button class="product-delete btn btn-danger">
@@ -176,6 +180,7 @@ $(document).ready(function() {
         });
     }
 
+    //Función borrar producto
     $(document).on('click', '.product-delete', function(){
         if(confirm('¿Estas seguro de querer eliminar?')){
             let element= $(this)[0].parentElement.parentElement;
@@ -196,5 +201,29 @@ $(document).ready(function() {
             })
         }
     });
+
+    //Función para editar un producto
+    $(document).on('click', '.product-item', function(){
+        let element = $(this)[0].parentElement.parentElement;
+        let id = $(element).attr('productId');
+        $.post('backend/product-single.php', {id}, function(response){
+            const product = JSON.parse(response);
+            $('#name').val(product.nombre);
+             // Actualizar los valores del JSON base con los datos obtenidos
+            var updatedJSON = {
+                precio: Number(product.precio),          // Usar el precio obtenido, o el valor base si no existe
+                unidades: Number(product.unidades),    // Usar las unidades obtenidas, o el valor base
+                modelo: product.modelo,          // Usar el modelo obtenido
+                marca: product.marca,             // Usar la marca obtenida
+                detalles: product.detalles || baseJSON.detalles,    // Usar los detalles obtenidos
+                imagen: product.imagen || baseJSON.imagen           // Usar la imagen obtenida, o el valor base
+            };
+
+            // Convertir el JSON modificado a string para mostrarlo en el textarea
+            $('#description').val(JSON.stringify(updatedJSON, null, 2));
+            $('#productId').val(product.id);
+            edit = true;
+        })
+    })
 });
 
