@@ -42,29 +42,26 @@ $(document).ready(function() {
     });
 
     //Funcion de envio de productos
-    $('#product-form').submit(function(e){
-        // Obtener valores individuales de los campos
-        e.preventDefault(); 
-    
+    $(document).ready(function() {
         let defaultImagen = "IMG/imagenDefecto.png"; 
-
+    
         // Función para mostrar el mensaje de error debajo de cada campo
         function mostrarError(campo, mensaje) {
             $(campo).next('.error-message').remove();  // Elimina el mensaje previo si existe
             $(campo).after(`<span class="error-message" style="color: red;">${mensaje}</span>`);
         }
-
+    
         // Función para limpiar el mensaje de error debajo de cada campo
         function limpiarError(campo) {
             $(campo).next('.error-message').remove();
         }
-
+    
         // Función de validación para cada campo
         function validarCampo(campo) {
             let valid = true;
             let valor = $(campo).val();
             limpiarError(campo);
-
+    
             switch (campo.id) {
                 case 'name':
                     if (valor.length === 0 || valor.length > 100) {
@@ -111,25 +108,27 @@ $(document).ready(function() {
             }
             return valid;
         }
-
-        // Ejecutar la validación al perder el foco en cada campo
-        $('#product-form input, #product-form textarea').on('blur', function() {
+    
+        // Validación en tiempo real y al perder el foco en cada campo
+        $('#product-form input, #product-form textarea').on('input blur', function() {
             validarCampo(this);
         });
-
-         // Validar todos los campos y enviar el formulario si no hay errores
+    
+        // Validación final y envío del formulario
         $('#product-form').submit(function(e) {
             e.preventDefault();
             let valido = true;
-
-            // Validar cada campo
+    
+            // Validar cada campo al enviar el formulario
             $('#product-form input, #product-form textarea').each(function() {
                 if (!validarCampo(this)) {
                     valido = false;
                 }
             });
-            if (!valido) return;  // Detener si hay errores
-
+            
+            // Detener el envío si hay errores
+            if (!valido) return;
+    
             // Crear el objeto de datos finales
             const finalProductData = {
                 id: $('#productId').val(),
@@ -141,27 +140,24 @@ $(document).ready(function() {
                 unidades: $('#unidades').val(),
                 imagen: $('#img').val() || defaultImagen
             };
-
+    
             let url_unic = edit === false ? 'backend/product-add.php' : 'backend/product-edit.php';
         
             // Enviar los datos vía AJAX
             $.ajax({
-                url: url_unic,  // Cambia a la ruta correcta del backend
+                url: url_unic,
                 type: 'POST',
                 ContentType: 'application/json',
-                data: JSON.stringify(finalProductData),  // Enviar el JSON modificado
+                data: JSON.stringify(finalProductData),
                 success: function(response) {
                     fetchProducts();
                     let message = JSON.parse(response);
-                    let template ='';
-                    template = `<p>
-                        ${message.message}
-                    </p>`
-                    // Mostrar el contenedor si hay productos
+                    let template = '';
+                    template = `<p>${message.message}</p>`;
+                    
                     if (message.message.length > 0) {
                         $('#product-result').removeClass('d-none');
                     }
-        
                     $('#container').html(template);
                 },
                 error: function(err) {
@@ -170,6 +166,7 @@ $(document).ready(function() {
             });
         });
     });
+    
 
     //Función de listar productos
     function fetchProducts() {
@@ -262,7 +259,7 @@ $(document).ready(function() {
                     
                     if (products.length > 0) {
                         // Si el nombre ya existe, mostrar un mensaje en azul debajo del input
-                        $('#name').after('<span id="name-exists" style="color: blue;">Ya existe un libro con este nombre.</span>');
+                        $('#name').after('<span id="name-exists" style="color: purple;">Ya existe un libro con este nombre.</span>');
                     }
                 }
             });
