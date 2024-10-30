@@ -44,99 +44,130 @@ $(document).ready(function() {
     //Funcion de envio de productos
     $('#product-form').submit(function(e){
         // Obtener valores individuales de los campos
-        e.preventDefault();
-        // Inicializar el array de errores
-        let errores = [];
-        let id = $('#productId').val();
-        let nombre = $('#name').val();
+        e.preventDefault(); 
     
-        let marca = $('#marca').val()
-        let modelo = $('#modelo').val();
-        let precio = $('#precio').val();
-        let detalles = $('#description').val();
-        let unidades = $('#unidades').val();
-        let imagen = $('#img').val();
-    
-        // Validar nombre del producto
-        if (nombre.length === 0 || nombre.length > 100) {
-            errores.push('El nombre del producto es obligatorio y debe tener 100 caracteres o menos.');
-        }
-    
-        // Validar precio
-        if (isNaN(precio) || precio <= 99.99) {
-            errores.push('El precio es requerido, debe ser númerico y debe ser mayor a 99.99');
-        }
-    
-        // Validar unidades
-        if (isNaN(unidades) || unidades < 0) {
-            errores.push('Las unidades son requeridas, deben ser númericas y deben ser un número entero positivo.');
-        }
-    
-        // Validar modelo
-        let modelPattern = /^[a-zA-Z0-9]+$/;
-        if (modelo === '' || !modelPattern.test(modelo) || modelo > 25) {
-            errores.push('El modelo es requerido, debe ser alfanumérico y tener 25 caracteres o menos.');
-        }
-    
-        // Validar marca
-        if (marca === '') {
-            errores.push('La marca es obligatoria.');
-        }
-    
-        // Validar detalles (opcional, pero si existe debe tener contenido)
-        if (detalles.length > 250) {
-            errores.push('Los detalles no pueden tener más de 250 caracteres.');
-        }
-    
-        // Validar imagen (opcional, puede estar vacía o tener un valor por defecto)
         let defaultImagen = "IMG/imagenDefecto.png"; 
-        if (imagen === '') {
-            imagen = defaultImagen;
+
+        // Función para mostrar el mensaje de error debajo de cada campo
+        function mostrarError(campo, mensaje) {
+            $(campo).next('.error-message').remove();  // Elimina el mensaje previo si existe
+            $(campo).after(`<span class="error-message" style="color: red;">${mensaje}</span>`);
         }
-    
-        // Si hay errores, mostrarlos y detener la ejecución
-        if (errores.length > 0) {
-            alert('Errores en los datos:\n' + errores.join('\n'));
-            return; // Detener la ejecución de la función
-        }  
-    
-        // Si no hay errores, crear el objeto productData final
-        const finalProductData = {
-            id : id,
-            nombre: nombre,
-            marca: marca,
-            modelo: modelo,
-            precio: precio,
-            detalles: detalles,
-            unidades: unidades,
-            imagen: imagen
-        };
-    
-        let url_unic = edit === false ? 'backend/product-add.php' : 'backend/product-edit.php';
-    
-        // Enviar los datos vía AJAX
-        $.ajax({
-            url: url_unic,  // Cambia a la ruta correcta del backend
-            type: 'POST',
-            ContentType: 'application/json',
-            data: JSON.stringify(finalProductData),  // Enviar el JSON modificado
-            success: function(response) {
-                fetchProducts();
-                let message = JSON.parse(response);
-                let template ='';
-                template = `<p>
-                    ${message.message}
-                </p>`
-                // Mostrar el contenedor si hay productos
-                if (message.message.length > 0) {
-                    $('#product-result').removeClass('d-none');
-                }
-    
-                $('#container').html(template);
-            },
-            error: function(err) {
-                console.error('Error al agregar producto:', err);
+
+        // Función para limpiar el mensaje de error debajo de cada campo
+        function limpiarError(campo) {
+            $(campo).next('.error-message').remove();
+        }
+
+        // Función de validación para cada campo
+        function validarCampo(campo) {
+            let valid = true;
+            let valor = $(campo).val();
+            limpiarError(campo);
+
+            switch (campo.id) {
+                case 'name':
+                    if (valor.length === 0 || valor.length > 100) {
+                        mostrarError(campo, 'El nombre del producto es obligatorio y debe tener 100 caracteres o menos.');
+                        valid = false;
+                    }
+                    break;
+                case 'precio':
+                    if (isNaN(valor) || valor <= 99.99) {
+                        mostrarError(campo, 'El precio es requerido, debe ser numérico y mayor a 99.99.');
+                        valid = false;
+                    }
+                    break;
+                case 'unidades':
+                    if (isNaN(valor) || valor < 0) {
+                        mostrarError(campo, 'Las unidades son requeridas, deben ser numéricas y un número entero positivo.');
+                        valid = false;
+                    }
+                    break;
+                case 'modelo':
+                    let modelPattern = /^[a-zA-Z0-9]+$/;
+                    if (valor === '' || !modelPattern.test(valor) || valor.length > 25) {
+                        mostrarError(campo, 'El modelo es requerido, debe ser alfanumérico y tener 25 caracteres o menos.');
+                        valid = false;
+                    }
+                    break;
+                case 'marca':
+                    if (valor === '') {
+                        mostrarError(campo, 'La marca es obligatoria.');
+                        valid = false;
+                    }
+                    break;
+                case 'description':
+                    if (valor.length > 250) {
+                        mostrarError(campo, 'Los detalles no pueden tener más de 250 caracteres.');
+                        valid = false;
+                    }
+                    break;
+                case 'img':
+                    if (valor === '') {
+                        $(campo).val(defaultImagen);
+                    }
+                    break;
             }
+            return valid;
+        }
+
+        // Ejecutar la validación al perder el foco en cada campo
+        $('#product-form input, #product-form textarea').on('blur', function() {
+            validarCampo(this);
+        });
+
+         // Validar todos los campos y enviar el formulario si no hay errores
+        $('#product-form').submit(function(e) {
+            e.preventDefault();
+            let valido = true;
+
+            // Validar cada campo
+            $('#product-form input, #product-form textarea').each(function() {
+                if (!validarCampo(this)) {
+                    valido = false;
+                }
+            });
+            if (!valido) return;  // Detener si hay errores
+
+            // Crear el objeto de datos finales
+            const finalProductData = {
+                id: $('#productId').val(),
+                nombre: $('#name').val(),
+                marca: $('#marca').val(),
+                modelo: $('#modelo').val(),
+                precio: $('#precio').val(),
+                detalles: $('#description').val(),
+                unidades: $('#unidades').val(),
+                imagen: $('#img').val() || defaultImagen
+            };
+
+            let url_unic = edit === false ? 'backend/product-add.php' : 'backend/product-edit.php';
+        
+            // Enviar los datos vía AJAX
+            $.ajax({
+                url: url_unic,  // Cambia a la ruta correcta del backend
+                type: 'POST',
+                ContentType: 'application/json',
+                data: JSON.stringify(finalProductData),  // Enviar el JSON modificado
+                success: function(response) {
+                    fetchProducts();
+                    let message = JSON.parse(response);
+                    let template ='';
+                    template = `<p>
+                        ${message.message}
+                    </p>`
+                    // Mostrar el contenedor si hay productos
+                    if (message.message.length > 0) {
+                        $('#product-result').removeClass('d-none');
+                    }
+        
+                    $('#container').html(template);
+                },
+                error: function(err) {
+                    console.error('Error al agregar producto:', err);
+                }
+            });
         });
     });
 
@@ -214,5 +245,28 @@ $(document).ready(function() {
             edit = true;
         })
     })
+
+    //Función para validacion de nombre
+    $('#name').keyup(function(e){
+        let nombre = $('#name').val();
+        // Limpiar mensaje anterior
+        $('#name-exists').remove();
+        
+        if (nombre.length > 0) {  // Validar solo si el campo tiene texto
+            $.ajax({
+                url: 'backend/product-name.php',
+                type: 'POST',
+                data: { name: nombre },
+                success: function(response) {
+                    let products = JSON.parse(response);
+                    
+                    if (products.length > 0) {
+                        // Si el nombre ya existe, mostrar un mensaje en azul debajo del input
+                        $('#name').after('<span id="name-exists" style="color: blue;">Ya existe un libro con este nombre.</span>');
+                    }
+                }
+            });
+        }
+    });
 });
 
