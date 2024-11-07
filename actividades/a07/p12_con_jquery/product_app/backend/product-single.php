@@ -1,5 +1,5 @@
 <?php
-    include_once __DIR__.'/database.php';
+    /*include_once __DIR__.'/database.php';
     
     // SE CREA EL ARREGLO QUE SE VA A DEVOLVER EN FORMA DE JSON
     $data = array();
@@ -27,5 +27,12 @@
         $conexion->close();
     }
     // SE HACE LA CONVERSIÓN DE ARRAY A JSON
-    echo json_encode($data[0], JSON_PRETTY_PRINT);
+    echo json_encode($data[0], JSON_PRETTY_PRINT);*/
+
+    namespace backend;
+    require_once __DIR__ . '/myapi/Products.php';
+
+    $productos = new \Products\Products('Libreria');
+    $productos ->singleId($_POST['id']);
+    echo $productos->getData();
 ?>
