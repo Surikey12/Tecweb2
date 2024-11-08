@@ -225,7 +225,6 @@ $(document).ready(function() {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('productId');
         $.post('backend/product-single.php', {id}, function(response){
-            console.log(response);
             const productArray = JSON.parse(response);
             const product = productArray[0];
             $('#name').val(product.nombre);
