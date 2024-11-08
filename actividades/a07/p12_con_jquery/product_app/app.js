@@ -1,0 +1,266 @@
+function init() {
+    /**
+     * Convierte el JSON a string para poder mostrarlo
+     * ver: https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/JSON
+     */
+    /*var JsonString = JSON.stringify(baseJSON,null,2);
+    document.getElementById("description").value = JsonString;*/
+
+    // SE LISTAN TODOS LOS PRODUCTOS
+    //listarProductos();
+}
+
+$(document).ready(function() {
+    let edit = false;
+    console.log('jQuery is working');
+    fetchProducts();
+    //Función para buscar productos
+    $('#search').keyup(function(e){
+        let search = $('#search').val();
+        $.ajax({
+            url: 'backend/product-search.php',
+            type: 'POST',
+            data: {search},
+            success: function(response){
+                console.log(response);
+                let products = JSON.parse(response);
+                let template =''; 
+
+                products.forEach(product => {
+                    template += `<li>
+                        ${product.nombre}
+                    </li>`
+                });
+                // Mostrar el contenedor si hay productos
+                if (products.length > 0) {
+                    $('#product-result').removeClass('d-none');
+                }
+
+                $('#container').html(template);
+            }
+        });
+    });
+
+    //Funcion de envio de productos
+    $(document).ready(function() {
+        let defaultImagen = "IMG/imagenDefecto.png"; 
+    
+        // Función para mostrar el mensaje de error debajo de cada campo
+        function mostrarError(campo, mensaje) {
+            $(campo).next('.error-message').remove();  // Elimina el mensaje previo si existe
+            $(campo).after(`<span class="error-message" style="color: red;">${mensaje}</span>`);
+        }
+    
+        // Función para limpiar el mensaje de error debajo de cada campo
+        function limpiarError(campo) {
+            $(campo).next('.error-message').remove();
+        }
+    
+        // Función de validación para cada campo
+        function validarCampo(campo) {
+            let valid = true;
+            let valor = $(campo).val();
+            limpiarError(campo);
+    
+            switch (campo.id) {
+                case 'name':
+                    if (valor.length === 0 || valor.length > 100) {
+                        mostrarError(campo, 'El nombre del producto es obligatorio y debe tener 100 caracteres o menos.');
+                        valid = false;
+                    }
+                    break;
+                case 'precio':
+                    if (isNaN(valor) || valor <= 99.99) {
+                        mostrarError(campo, 'El precio es requerido, debe ser numérico y mayor a 99.99.');
+                        valid = false;
+                    }
+                    break;
+                case 'unidades':
+                    if (isNaN(valor) || valor < 0) {
+                        mostrarError(campo, 'Las unidades son requeridas, deben ser numéricas y un número entero positivo.');
+                        valid = false;
+                    }
+                    break;
+                case 'modelo':
+                    let modelPattern = /^[a-zA-Z0-9]+$/;
+                    if (valor === '' || !modelPattern.test(valor) || valor.length > 25) {
+                        mostrarError(campo, 'El modelo es requerido, debe ser alfanumérico y tener 25 caracteres o menos.');
+                        valid = false;
+                    }
+                    break;
+                case 'marca':
+                    if (valor === '') {
+                        mostrarError(campo, 'La marca es obligatoria.');
+                        valid = false;
+                    }
+                    break;
+                case 'description':
+                    if (valor.length > 250) {
+                        mostrarError(campo, 'Los detalles no pueden tener más de 250 caracteres.');
+                        valid = false;
+                    }
+                    break;
+                case 'img':
+                    if (valor === '') {
+                        $(campo).val(defaultImagen);
+                    }
+                    break;
+            }
+            return valid;
+        }
+    
+        // Validación en tiempo real y al perder el foco en cada campo
+        $('#product-form input, #product-form textarea').on('input blur', function() {
+            validarCampo(this);
+        });
+    
+        // Validación final y envío del formulario
+        $('#product-form').submit(function(e) {
+            e.preventDefault();
+            let valido = true;
+    
+            // Validar cada campo al enviar el formulario
+            $('#product-form input, #product-form textarea').each(function() {
+                if (!validarCampo(this)) {
+                    valido = false;
+                }
+            });
+            
+            // Detener el envío si hay errores
+            if (!valido) return;
+    
+            // Crear el objeto de datos finales
+            const finalProductData = {
+                id: $('#productId').val(),
+                nombre: $('#name').val(),
+                marca: $('#marca').val(),
+                modelo: $('#modelo').val(),
+                precio: $('#precio').val(),
+                detalles: $('#description').val(),
+                unidades: $('#unidades').val(),
+                imagen: $('#img').val() || defaultImagen
+            };
+    
+            let url_unic = edit === false ? 'backend/product-add.php' : 'backend/product-edit.php';
+        
+            // Enviar los datos vía AJAX
+            $.ajax({
+                url: url_unic,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(finalProductData),
+                success: function(response) {
+                    fetchProducts();
+                    console.log(response);
+                    let message = JSON.parse(response);
+                    let template = '';
+                    template = `<p>${message.message}</p>`;
+                    
+                    if (message.message.length > 0) {
+                        $('#product-result').removeClass('d-none');
+                    }
+                    $('#container').html(template);
+                },
+                error: function(err) {
+                    console.error('Error al agregar producto:', err);
+                }
+            });
+        });
+    });
+    
+
+    //Función de listar productos
+    function fetchProducts() {
+        $.ajax({
+            url: 'backend/product-list.php',
+            type: 'GET',
+            success: function(response){
+                let products = JSON.parse(response);
+                let template = '';
+                products.forEach(product =>{
+                    template += `
+                        <tr productId = "${product.id}">
+                            <td>${product.id}</td>
+                            <td>
+                                <a href="#" class="product-item">${product.nombre}</a>
+                            </td>
+                            <td>${product.detalles}</td>
+                            <td>
+                                <button class="product-delete btn btn-danger">
+                                    Eliminar
+                                </button>  
+                            </td>
+                        </tr>
+                    `
+                });
+                $('#products').html(template);
+            }
+        });
+    }
+
+    //Función borrar producto
+    $(document).on('click', '.product-delete', function(){
+        if(confirm('¿Estas seguro de querer eliminar?')){
+            let element= $(this)[0].parentElement.parentElement;
+            let id= $(element).attr('productId');
+            $.post('backend/product-delete.php', {id}, function(response){
+                fetchProducts();
+                let message = JSON.parse(response);
+                    let template ='';
+                    template = `<p>
+                        ${message.message}
+                    </p>`
+                    // Mostrar el contenedor si hay productos
+                    if (message.message.length > 0) {
+                        $('#product-result').removeClass('d-none');
+                    }
+        
+                    $('#container').html(template);
+            })
+        }
+    });
+
+    //Función para editar un producto
+    $(document).on('click', '.product-item', function(){
+        let element = $(this)[0].parentElement.parentElement;
+        let id = $(element).attr('productId');
+        $.post('backend/product-single.php', {id}, function(response){
+            const productArray = JSON.parse(response);
+            const product = productArray[0];
+            $('#name').val(product.nombre);
+            $('#precio').val(Number(product.precio));         // Asignar precio como número
+            $('#unidades').val(Number(product.unidades));       // Asignar unidades como número
+            $('#modelo').val(product.modelo);                 // Asignar modelo como texto
+            $('#marca').val(product.marca);                  // Asignar marca como texto
+            $('#description').val(product.detalles);             // Asignar detalles como texto
+            $('#img').val(product.imagen);                 // Asignar imagen como texto
+            $('#productId').val(product.id);  
+
+            edit = true;
+        })
+    })
+
+    //Función para validacion de nombre
+    $('#name').keyup(function(e){
+        let nombre = $('#name').val();
+        // Limpiar mensaje anterior
+        $('#name-exists').remove();
+        
+        if (nombre.length > 0) {  // Validar solo si el campo tiene texto
+            $.ajax({
+                url: 'backend/product-name.php',
+                type: 'POST',
+                data: { name: nombre },
+                success: function(response) {
+                    let products = JSON.parse(response);
+                    
+                    if (products.length > 0) {
+                        // Si el nombre ya existe, mostrar un mensaje en azul debajo del input
+                        $('#name').after('<span id="name-exists" style="color: purple;">Ya existe un libro con este nombre.</span>');
+                    }
+                }
+            });
+        }
+    });
+});
+
