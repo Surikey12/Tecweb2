@@ -29,33 +29,23 @@ class Products extends DataBase {
         ];
 
         // Verifica si el producto ya existe en la base de datos
-        $consulta = "SELECT * FROM libros WHERE nombre = :nombre AND eliminado = 0";
-        $stmt = $this->conexion->prepare($consulta);
-        $stmt->bindParam(':nombre', $jsonOBJ->nombre);
-        $stmt->execute();
+        $consulta = "SELECT * FROM libros WHERE nombre = '{$jsonOBJ->nombre}' AND eliminado = 0";
+        $result = $this->conexion->query($consulta);
 
-        if ($stmt->rowCount() === 0) {
-            // Si no existe, procede a insertar el nuevo producto
-            $insertar = "INSERT INTO libros (nombre, marca, modelo, precio, detalles, unidades, imagen, eliminado) 
-                         VALUES (:nombre, :marca, :modelo, :precio, :detalles, :unidades, :imagen, 0)";
-            
-            $stmtInsert = $this->conexion->prepare($insertar);
-            $stmtInsert->bindParam(':nombre', $jsonOBJ->nombre);
-            $stmtInsert->bindParam(':marca', $jsonOBJ->marca);
-            $stmtInsert->bindParam(':modelo', $jsonOBJ->modelo);
-            $stmtInsert->bindParam(':precio', $jsonOBJ->precio);
-            $stmtInsert->bindParam(':detalles', $jsonOBJ->detalles);
-            $stmtInsert->bindParam(':unidades', $jsonOBJ->unidades);
-            $stmtInsert->bindParam(':imagen', $jsonOBJ->imagen);
-
-            if ($stmtInsert->execute()) {
-                // Si se insertó correctamente, actualiza la respuesta
-                $this->response['status'] = 'success';
-                $this->response['message'] = 'Producto agregado';
+        if ($result->num_rows == 0) {
+            // Si no existe el producto, insertarlo
+            $this->conexion->set_charset("utf8");
+            $sql = "INSERT INTO libros (nombre, marca, modelo, precio, detalles, unidades, imagen, eliminado) 
+                    VALUES ('{$jsonOBJ->nombre}', '{$jsonOBJ->marca}', '{$jsonOBJ->modelo}', {$jsonOBJ->precio}, 
+                            '{$jsonOBJ->detalles}', {$jsonOBJ->unidades}, '{$jsonOBJ->imagen}', 0)";
+            if ($this->conexion->query($sql)) {
+                $this->response['status'] = "success";
+                $this->response['message'] = "Producto agregado";
             } else {
-                $this->response['message'] = 'ERROR: No se pudo ejecutar la inserción';
+                $this->response['message'] = "ERROR: No se ejecutó $sql. " . $this->conexion->error;
             }
         }
+        $result->free();
     }
 
     // Método para eliminar un producto (marcar como eliminado) usando su ID
@@ -68,18 +58,13 @@ class Products extends DataBase {
 
         // Verifica que el ID no esté vacío
         if (!empty($id)) {
-            // Prepara y ejecuta la consulta de actualización
-            $sql = "UPDATE libros SET eliminado = 1 WHERE id = :id";
-            $stmt = $this->conexion->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
-            if ($stmt->execute()) {
-                // Si la consulta fue exitosa, actualiza la respuesta
-                $this->response['status'] = 'success';
-                $this->response['message'] = 'Producto eliminado';
+            $sql = "UPDATE libros SET eliminado = 1 WHERE id = {$id}";
+        
+            if ($this->conexion->query($sql)) {
+                $this->response['status'] = "success";
+                $this->response['message'] = "Producto eliminado";
             } else {
-                // Si falló, almacena el mensaje de error
-                $this->response['message'] = 'ERROR: No se pudo ejecutar la consulta de eliminación';
+                $this->response['message'] = "ERROR: No se ejecutó $sql. " . $this->conexion->error;
             }
         }
     }
@@ -187,16 +172,25 @@ class Products extends DataBase {
 
     // Método para buscar un producto por su nombre
     public function singleByName($productName) {
-        try {
-            // Consulta para obtener el producto por nombre
-            $stmt = $this->conexion->prepare("SELECT * FROM libros WHERE nombre = :nombre");
-            $stmt->bindParam(':nombre', $productName);
-            $stmt->execute();
-            
-            // Almacena el resultado en el atributo response
-            $this->response = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            die("Error en la consulta: " . $e->getMessage());
+        $this->response = [];
+
+        // Realiza la consulta de búsqueda por nombre
+        $sql = "SELECT * FROM libros WHERE nombre = '{$productName}' AND eliminado = 0";
+        if ($result = $this->conexion->query($sql)) {
+            // Obtiene los resultados
+            $rows = $result->fetch_all(MYSQLI_ASSOC);
+
+            if (!is_null($rows)) {
+                // Codifica los datos a UTF-8 y los mapea en el arreglo de respuesta
+                foreach ($rows as $num => $row) {
+                    foreach ($row as $key => $value) {
+                        $this->response[$num][$key] = utf8_encode($value);
+                    }
+                }
+            }
+            $result->free();
+        } else {
+            die('Query Error: ' . $this->conexion->error);
         }
     }
 

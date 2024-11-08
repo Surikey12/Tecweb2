@@ -147,10 +147,11 @@ $(document).ready(function() {
             $.ajax({
                 url: url_unic,
                 type: 'POST',
-                ContentType: 'application/json',
+                contentType: 'application/json',
                 data: JSON.stringify(finalProductData),
                 success: function(response) {
                     fetchProducts();
+                    console.log(response);
                     let message = JSON.parse(response);
                     let template = '';
                     template = `<p>${message.message}</p>`;
@@ -224,21 +225,18 @@ $(document).ready(function() {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('productId');
         $.post('backend/product-single.php', {id}, function(response){
-            const product = JSON.parse(response);
+            console.log(response);
+            const productArray = JSON.parse(response);
+            const product = productArray[0];
             $('#name').val(product.nombre);
-             // Actualizar los valores del JSON base con los datos obtenidos
-            var updatedJSON = {
-                precio: Number(product.precio),          // Usar el precio obtenido, o el valor base si no existe
-                unidades: Number(product.unidades),    // Usar las unidades obtenidas, o el valor base
-                modelo: product.modelo,          // Usar el modelo obtenido
-                marca: product.marca,             // Usar la marca obtenida
-                detalles: product.detalles || baseJSON.detalles,    // Usar los detalles obtenidos
-                imagen: product.imagen || baseJSON.imagen           // Usar la imagen obtenida, o el valor base
-            };
+            $('#precio').val(Number(product.precio));         // Asignar precio como número
+            $('#unidades').val(Number(product.unidades));       // Asignar unidades como número
+            $('#modelo').val(product.modelo);                 // Asignar modelo como texto
+            $('#marca').val(product.marca);                  // Asignar marca como texto
+            $('#description').val(product.detalles);             // Asignar detalles como texto
+            $('#img').val(product.imagen);                 // Asignar imagen como texto
+            $('#productId').val(product.id);  
 
-            // Convertir el JSON modificado a string para mostrarlo en el textarea
-            $('#description').val(JSON.stringify(updatedJSON, null, 2));
-            $('#productId').val(product.id);
             edit = true;
         })
     })
