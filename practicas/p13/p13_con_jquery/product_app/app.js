@@ -175,7 +175,6 @@ $(document).ready(function() {
             url: 'backend/product-list.php',
             type: 'GET',
             success: function(response){
-                console.log(response);
                 let products = JSON.parse(response);
                 let template = '';
                 products.forEach(product =>{
