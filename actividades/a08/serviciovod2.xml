@@ -1,0 +1,70 @@
+<catalogoVOD>
+    <cuenta correo="emilytorres2@gmail.com">
+        <perfiles>
+            <perfil usuario="EmilyT" idioma="Español"/>
+            <perfil usuario="Stella" idioma="Ingles"/>
+        </perfiles>
+    </cuenta>
+    <contenido>
+        <peliculas>
+            <genero nombre="Ciencia Ficción">
+                <duracion duracion="2hrs 30min">
+                    <nombre>Los Juegos del Hambre</nombre>
+                </duracion>
+                <titulo duracion="1hr 45min">
+                    <nombre>Mentes Poderosas</nombre>
+                </titulo>
+                <titulo duracion="2hrs 19min">
+                    <nombre>Divergente</nombre>
+                </titulo>
+                <titulo duracion="2hrs 50min">
+                    <nombre>Interestelar</nombre>
+                </titulo>
+            </genero>
+            <genero nombre="Romance">
+                <titulo duracion="1hr 50min">
+                    <nombre>Yo antes de ti</nombre>
+                </titulo>
+                <titulo duracion="1hr 47min">
+                    <nombre>Si decido quedarme</nombre>
+                </titulo>
+                <titulo duracion="1hr 39min">
+                    <nombre>A todos los chicos de los que me enamore</nombre>
+                </titulo>
+                <titulo duracion="2hrs 7min">
+                    <nombre>Orgullo y prejuicio</nombre>
+                </titulo>
+            </genero>
+        </peliculas>
+        <programas>
+            <genero nombre="Comedia">
+                <titulo duracion="22min">
+                    <nombre>The Big Bang Theory</nombre>
+                </titulo>
+                <titulo duracion="22min">
+                    <nombre>Friends</nombre>
+                </titulo>
+                <titulo duracion="45min">
+                    <nombre>The Office</nombre>
+                </titulo>
+                <titulo duracion="43min">
+                    <nombre>Emily en Paris</nombre>
+                </titulo>
+            </genero>
+            <genero nombre="Terror">
+                <titulo duracion="50min">
+                    <nombre>American Horror Story</nombre>
+                </titulo>
+                <titulo duracion="59min">
+                    <nombre>Archivo 81</nombre>
+                </titulo>
+                <titulo duracion="90min">
+                    <nombre>Stranger Things</nombre>
+                </titulo>
+                <titulo duracion="60min">
+                    <nombre>From</nombre>
+                </titulo>
+            </genero>
+        </programas>
+    </contenido>
+</catalogoVOD>
