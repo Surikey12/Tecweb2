@@ -1,0 +1,97 @@
+<catalogoVOD>
+    <cuenta>
+        <correo>emilytorres2@gmail.com</correo>
+        <perfiles>
+            <perfil>
+                <usuario>EmilyT</usuario>
+                <idioma>Español</idioma>
+            </perfil>
+            <perfil>
+                <usuario>Stella4</usuario>
+                <idioma>Ingles</idioma>
+            </perfil>
+        </perfiles>
+    </cuenta>
+    <contenido>
+        <peliculas>
+            <genero>
+                <nombre>Ciencia Ficción</nombre>
+                <titulo>
+                    <nombre>Los Juegos del Hambre</nombre>
+                    <duracion>2hrs 22min</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Mentes Poderosas</nombre>
+                    <duracion>1hr 45min</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Divergente</nombre>
+                    <duracion>2hrs 19min</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Interestelar</nombre>
+                    <duracion>2hrs 49min</duracion>
+                </titulo>
+            </genero>
+            <genero>
+                <nombre>Romance</nombre>
+                <titulo>
+                    <nombre>Yo antes de ti</nombre>
+                    <duracion>1hr 50min</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Si decido quedarme</nombre>
+                    <duracion>1hr 47min</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>A todos los chicos de los que me enamore</nombre>
+                    <duracion>1hr 39min</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Orgullo y prejuicio</nombre>
+                    <duracion>2hrs 7min</duracion>
+                </titulo>
+            </genero>
+        </peliculas>
+        <programas>
+            <genero>
+                <nombre>Comedia</nombre>
+                <titulo>
+                    <nombre>The Big Bang Theory</nombre>
+                    <duracion>22 min</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Friends</nombre>
+                    <duracion>22 min</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>The Office</nombre>
+                    <duracion>45 min</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Emily en Paris</nombre>
+                    <duracion>23 min</duracion>
+                </titulo>
+            </genero>
+            <genero>
+                <nombre>Terror</nombre>
+                <titulo>
+                    <nombre>American Horror Story</nombre>
+                    <duracion>50 min</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Archivo 81</nombre>
+                    <duracion>59 min</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Stranger Things</nombre>
+                    <duracion>90 min</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>From</nombre>
+                    <duracion>60 mim</duracion>
+                </titulo>
+            </genero>
+        </programas>
+    </contenido>
+</catalogoVOD>
