@@ -6,17 +6,68 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit1e9a4335b0409214b4c8b8e8859cad5f
 {
+    public static $files = array (
+        '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Slim\\' => 5,
+        ),
+        'P' => 
+        array (
+            'Psr\\Http\\Message\\' => 17,
+            'Psr\\Container\\' => 14,
+        ),
         'M' => 
         array (
             'MyApi\\' => 6,
         ),
+        'I' => 
+        array (
+            'Interop\\Container\\' => 18,
+        ),
+        'F' => 
+        array (
+            'FastRoute\\' => 10,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Slim\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/slim/slim/Slim',
+        ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
         'MyApi\\' => 
         array (
             0 => __DIR__ . '/../..' . '/myapi',
+        ),
+        'Interop\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
+        ),
+        'FastRoute\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nikic/fast-route/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'Pimple' => 
+            array (
+                0 => __DIR__ . '/..' . '/pimple/pimple/src',
+            ),
         ),
     );
 
@@ -29,6 +80,7 @@ class ComposerStaticInit1e9a4335b0409214b4c8b8e8859cad5f
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit1e9a4335b0409214b4c8b8e8859cad5f::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit1e9a4335b0409214b4c8b8e8859cad5f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit1e9a4335b0409214b4c8b8e8859cad5f::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit1e9a4335b0409214b4c8b8e8859cad5f::$classMap;
 
         }, null, ClassLoader::class);
