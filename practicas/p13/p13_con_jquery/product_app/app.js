@@ -18,7 +18,7 @@ $(document).ready(function() {
     $('#search').keyup(function(e){
         let search = $('#search').val();
         $.ajax({
-            url: 'backend/product-search.php',
+            url: 'backend/index.php/productos/buscar',
             type: 'POST',
             data: {search},
             success: function(response){
@@ -141,8 +141,9 @@ $(document).ready(function() {
                 imagen: $('#img').val() || defaultImagen
             };
     
-            let url_unic = edit === false ? 'backend/product-add.php' : 'backend/product-edit.php';
-        
+            let url_unic = edit === false ? 'backend/index.php/productos/agregar' : `backend/index.php/productos/actualizar`;
+            let type_unic = edit === false ? 'POST' : 'PUT';
+
             // Enviar los datos vía AJAX
             $.ajax({
                 url: url_unic,
@@ -172,9 +173,10 @@ $(document).ready(function() {
     //Función de listar productos
     function fetchProducts() {
         $.ajax({
-            url: 'backend/product-list.php',
+            url: 'backend/index.php/productos',
             type: 'GET',
             success: function(response){
+                console.log(response);
                 let products = JSON.parse(response);
                 let template = '';
                 products.forEach(product =>{
@@ -203,8 +205,9 @@ $(document).ready(function() {
         if(confirm('¿Estas seguro de querer eliminar?')){
             let element= $(this)[0].parentElement.parentElement;
             let id= $(element).attr('productId');
-            $.post('backend/product-delete.php', {id}, function(response){
+            $.post(`backend/index.php/productos/eliminar`, {id}, function(response){
                 fetchProducts();
+                console.log(response);
                 let message = JSON.parse(response);
                     let template ='';
                     template = `<p>
@@ -224,7 +227,8 @@ $(document).ready(function() {
     $(document).on('click', '.product-item', function(){
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('productId');
-        $.post('backend/product-single.php', {id}, function(response){
+        $.post(`backend/index.php/productos/${id}`, {id}, function(response){
+            console.log(response);
             const productArray = JSON.parse(response);
             const product = productArray[0];
             $('#name').val(product.nombre);
@@ -248,10 +252,11 @@ $(document).ready(function() {
         
         if (nombre.length > 0) {  // Validar solo si el campo tiene texto
             $.ajax({
-                url: 'backend/product-name.php',
+                url: `backend/index.php/productos/buscarNombre`,
                 type: 'POST',
                 data: { name: nombre },
                 success: function(response) {
+                    console.log(response);
                     let products = JSON.parse(response);
                     
                     if (products.length > 0) {
